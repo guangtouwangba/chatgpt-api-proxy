@@ -2,7 +2,7 @@
 
 build:
 	@echo "Building..."
-	@go build -o proxy
+	@go build -o ./bin/proxy
 
 test:
 	@echo "Testing..."
