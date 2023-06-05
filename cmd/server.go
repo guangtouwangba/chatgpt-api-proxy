@@ -4,8 +4,7 @@ Copyright © 2023 NAME HERE <EMAIL ADDRESS>
 package cmd
 
 import (
-	"fmt"
-
+	"chatgpt-api-proxy/internal/server"
 	"github.com/spf13/cobra"
 )
 
@@ -33,8 +32,10 @@ func init() {
 	// is called directly, e.g.:
 	// serverCmd.Flags().BoolP("toggle", "t", false, "Help message for toggle")
 	serverCmd.Flags().IntP("port", "p", 8080, "Port to listen on")
+	// path to config file
+	serverCmd.Flags().StringP("config", "c", "", "Path to config file")
 }
 
-func runServer(cmd *cobra.Command, args []string) {
-	fmt.Println("server called")
+func runServer(_ *cobra.Command, _ []string) {
+	server.RunServer()
 }

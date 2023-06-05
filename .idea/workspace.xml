@@ -4,7 +4,15 @@
     <option name="autoReloadType" value="ALL" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="223f3aaa-880a-4685-8c38-ccc4dff3d269" name="Changes" comment="" />
+    <list default="true" id="223f3aaa-880a-4685-8c38-ccc4dff3d269" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/internal/server/server.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/chatgpt-api-proxy.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/chatgpt-api-proxy.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/api/server.go" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmd/server.go" beforeDir="false" afterPath="$PROJECT_DIR$/cmd/server.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/go.mod" beforeDir="false" afterPath="$PROJECT_DIR$/go.mod" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/go.sum" beforeDir="false" afterPath="$PROJECT_DIR$/go.sum" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -17,7 +25,7 @@
       </list>
     </option>
   </component>
-  <component name="GOROOT" url="file://$USER_HOME$/go/go1.19.1" />
+  <component name="GOROOT" url="file:///opt/homebrew/opt/go/libexec" />
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
@@ -40,17 +48,73 @@
     "WebServerToolWindowFactoryState": "false",
     "com.google.cloudcode.ide_session_index": "20230605_0008",
     "dart.analysis.tool.window.visible": "false",
+    "git-widget-placeholder": "master",
     "go.import.settings.migrated": "true",
-    "last_opened_file_path": "/Users/siqiuchen",
+    "go.sdk.automatically.set": "true",
+    "last_opened_file_path": "/Users/kid",
     "node.js.detected.package.eslint": "true",
-    "node.js.selected.package.eslint": "(autodetect)"
+    "node.js.selected.package.eslint": "(autodetect)",
+    "settings.editor.selected.configurable": "go.vgo"
   }
 }]]></component>
+  <component name="RecentsManager">
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/internal" />
+      <recent name="$PROJECT_DIR$/server" />
+    </key>
+  </component>
+  <component name="RunManager" selected="Go Test.Test_initConfigs in chatgpt-api-proxy/config">
+    <configuration name="go build chatgpt-api-proxy" type="GoApplicationRunConfiguration" factoryName="Go Application" temporary="true" nameIsGenerated="true">
+      <module name="chatgpt-api-proxy" />
+      <working_directory value="$PROJECT_DIR$" />
+      <kind value="PACKAGE" />
+      <package value="chatgpt-api-proxy" />
+      <directory value="$PROJECT_DIR$" />
+      <filePath value="$PROJECT_DIR$/main.go" />
+      <method v="2" />
+    </configuration>
+    <configuration name="Test_initConfigs in chatgpt-api-proxy/config" type="GoTestRunConfiguration" factoryName="Go Test" temporary="true" nameIsGenerated="true">
+      <module name="chatgpt-api-proxy" />
+      <working_directory value="$PROJECT_DIR$/config" />
+      <root_directory value="$PROJECT_DIR$" />
+      <kind value="PACKAGE" />
+      <package value="chatgpt-api-proxy/config" />
+      <directory value="$PROJECT_DIR$" />
+      <filePath value="$PROJECT_DIR$" />
+      <framework value="gotest" />
+      <pattern value="^\QTest_initConfigs\E$" />
+      <method v="2" />
+    </configuration>
+    <configuration name="Test_initConfigs/should_init_config in chatgpt-api-proxy/config" type="GoTestRunConfiguration" factoryName="Go Test" temporary="true" nameIsGenerated="true">
+      <module name="chatgpt-api-proxy" />
+      <working_directory value="$PROJECT_DIR$/config" />
+      <root_directory value="$PROJECT_DIR$" />
+      <kind value="PACKAGE" />
+      <package value="chatgpt-api-proxy/config" />
+      <directory value="$PROJECT_DIR$" />
+      <filePath value="$PROJECT_DIR$" />
+      <framework value="gotest" />
+      <pattern value="^\QTest_initConfigs\E$/^\Qshould_init_config\E$" />
+      <method v="2" />
+    </configuration>
+    <recent_temporary>
+      <list>
+        <item itemvalue="Go Test.Test_initConfigs in chatgpt-api-proxy/config" />
+        <item itemvalue="Go Test.Test_initConfigs/should_init_config in chatgpt-api-proxy/config" />
+        <item itemvalue="Go Build.go build chatgpt-api-proxy" />
+      </list>
+    </recent_temporary>
+  </component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="3" />
   </component>
   <component name="VgoProject">
+    <environment>
+      <map>
+        <entry key="GOPROXY" value="https://goproxy.cn,direct" />
+      </map>
+    </environment>
     <settings-migrated>true</settings-migrated>
   </component>
 </project>
