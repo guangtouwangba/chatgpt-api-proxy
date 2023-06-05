@@ -6,6 +6,7 @@ import (
 )
 
 func Test_initConfigs(t *testing.T) {
+	t.Parallel()
 	tests := []struct {
 		name string
 		want *config.Config

@@ -1,4 +1,5 @@
-.idea
+.idea/
 ./bin
 proxy
 .idea/workspace.xml
+.idea/*.iml

@@ -11,6 +11,7 @@ var Store *Config
 
 func NewConfigStore() *Config {
 	initConfigs()
+
 	return Store
 }
 

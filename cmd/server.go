@@ -8,6 +8,8 @@ import (
 	"github.com/spf13/cobra"
 )
 
+const defaultPort = 8080
+
 // serverCmd represents the server command
 var serverCmd = &cobra.Command{
 	Use:   "server",
@@ -31,7 +33,7 @@ func init() {
 	// Cobra supports local flags which will only run when this command
 	// is called directly, e.g.:
 	// serverCmd.Flags().BoolP("toggle", "t", false, "Help message for toggle")
-	serverCmd.Flags().IntP("port", "p", 8080, "Port to listen on")
+	serverCmd.Flags().IntP("port", "p", defaultPort, "Port to listen on")
 	// path to config file
 	serverCmd.Flags().StringP("config", "c", "", "Path to config file")
 }
