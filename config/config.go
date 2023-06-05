@@ -1,10 +1,9 @@
 package config
 
 import (
-	"fmt"
-	"github.com/spf13/viper"
 	"log"
 	"os"
+
 )
 
 var Store *Config
@@ -39,12 +38,12 @@ func initConfigs() {
 
 	err := viper.ReadInConfig()
 	if err != nil {
-		fmt.Println("fatal error config file: default \n", err)
+		logrus.Info("fatal error config file: default \n", err)
 		os.Exit(1)
 	}
 
 	port := viper.GetString("server.port")
-	fmt.Println("port: ", port)
+	logrus.Info("port: ", port)
 
 	if err := viper.Unmarshal(&Store); err != nil {
 		log.Fatal(err)

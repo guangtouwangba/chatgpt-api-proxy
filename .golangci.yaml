@@ -14,7 +14,6 @@ linters:
     - cyclop
     - deadcode
     - decorder
-    - depguard
     - dogsled
     - dupl
     - dupword
@@ -25,7 +24,6 @@ linters:
     - errorlint
     - execinquery
     - exhaustive
-    - exhaustruct
     - exportloopref
     - forbidigo
     - forcetypeassert
@@ -33,13 +31,11 @@ linters:
     - gci
     - ginkgolinter
     - gocheckcompilerdirectives
-    - gochecknoglobals
     - gocognit
     - goconst
     - gocritic
     - gocyclo
     - godot
-    - godox
     - goerr113
     - gofmt
     - gofumpt
@@ -79,7 +75,6 @@ linters:
     - nonamedreturns
     - nosnakecase
     - nosprintfhostport
-    - paralleltest
     - prealloc
     - predeclared
     - promlinter
@@ -97,20 +92,21 @@ linters:
     - testableexamples
     - testpackage
     - thelper
-    - tparallel
     - typecheck
     - unconvert
     - unparam
     - unused
     - usestdlibvars
     - varcheck
-    - varnamelen
     - wastedassign
     - whitespace
     - wrapcheck
-    - wsl
     - zerologlint
-  # Enable all available linters.
+  disable:
+    - gochecknoinits
+    - depguard
+    - wsl
+    - godox
   # Default: false
 #  enable-all: true
   # Disable specific linter

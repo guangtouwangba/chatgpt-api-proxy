@@ -1,8 +1,9 @@
-package config
+package config_test
 
 import (
-	"chatgpt-api-proxy/config"
 	"testing"
+
+	"chatgpt-api-proxy/config"
 )
 
 func Test_initConfigs(t *testing.T) {
@@ -20,11 +21,13 @@ func Test_initConfigs(t *testing.T) {
 			},
 		},
 	}
-	for _, tt := range tests {
-		t.Run(tt.name, func(t *testing.T) {
+	for _, tc := range tests {
+		tc := tc
+		t.Run(tc.name, func(t *testing.T) {
+			t.Parallel()
 			config.NewConfigStore()
-			if config.Store.Server.Port != tt.want.Server.Port {
-				t.Errorf("initConfigs() = %v, want %v", config.Store.GetServerPort(), tt.want.Server.Port)
+			if config.Store.Server.Port != tc.want.Server.Port {
+				t.Errorf("initConfigs() = %v, want %v", config.Store.GetServerPort(), tc.want.Server.Port)
 			}
 		})
 	}

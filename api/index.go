@@ -1,17 +1,20 @@
-package server
+package api
 
 import (
+	"net/http"
+
 	"chatgpt-api-proxy/config"
 	"chatgpt-api-proxy/pkg/router"
 	"github.com/sirupsen/logrus"
 )
 
-// RunServer starts the server.
-func RunServer() {
+// Handler is the entrypoint for the vercel serverless function.
+func Handler(w http.ResponseWriter, r *http.Request) {
 	// init config
 	store := config.NewConfigStore()
 
-	r := router.NewRouter()
+	engine := router.NewRouter()
 	logrus.Infof("start server at %s", store.Server.Port)
-	_ = r.Run(store.GetServerPort())
+
+	engine.ServeHTTP(w, r)
 }

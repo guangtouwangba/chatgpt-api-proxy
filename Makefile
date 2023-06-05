@@ -10,4 +10,4 @@ test:
 
 lint:
 	@echo "Linting..."
-	@golangci-lint run ./... -v
+	@golangci-lint run ./...

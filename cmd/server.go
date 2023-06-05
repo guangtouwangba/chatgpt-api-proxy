@@ -10,7 +10,7 @@ import (
 
 const defaultPort = 8080
 
-// serverCmd represents the server command
+// serverCmd represents the server command.
 var serverCmd = &cobra.Command{
 	Use:   "server",
 	Short: "Launches the server",
@@ -28,7 +28,7 @@ func init() {
 
 	// Cobra supports Persistent Flags which will work for this command
 	// and all subcommands, e.g.:
-	//serverCmd.PersistentFlags().String("foo", "", "A help for foo")
+	// serverCmd.PersistentFlags().String("foo", "", "A help for foo")
 
 	// Cobra supports local flags which will only run when this command
 	// is called directly, e.g.:
