@@ -28,7 +28,6 @@ linters:
     - forbidigo
     - forcetypeassert
     - funlen
-    - gci
     - ginkgolinter
     - gocheckcompilerdirectives
     - gocognit
@@ -38,9 +37,7 @@ linters:
     - godot
     - goerr113
     - gofmt
-    - gofumpt
     - goheader
-    - goimports
     - golint
     - gomnd
     - gomoddirectives
@@ -107,8 +104,10 @@ linters:
     - depguard
     - wsl
     - godox
+    - gci
+    - gofumpt
   # Default: false
-#  enable-all: true
+  #  enable-all: true
   # Disable specific linter
   # https://golangci-lint.run/usage/linters/#disabled-by-default
   # Enable presets.

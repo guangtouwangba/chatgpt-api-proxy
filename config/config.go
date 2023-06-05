@@ -1,10 +1,11 @@
 package config
 
 import (
-	"github.com/sirupsen/logrus"
-	"github.com/spf13/viper"
 	"log"
 	"os"
+
+	"github.com/sirupsen/logrus"
+	"github.com/spf13/viper"
 )
 
 var Store *Config

@@ -5,6 +5,7 @@ package cmd
 
 import (
 	"chatgpt-api-proxy/internal/server"
+
 	"github.com/spf13/cobra"
 )
 
