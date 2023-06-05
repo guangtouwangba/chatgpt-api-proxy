@@ -1,4 +1,4 @@
-package confuig
+package config
 
 import (
 	"chatgpt-api-proxy/config"
