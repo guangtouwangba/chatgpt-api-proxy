@@ -1,2 +1,6 @@
 server:
   port: 8080
+
+openAi:
+  apiKey: "YOUR_API_KEY"
+  model: "gpt3.5-turbo"

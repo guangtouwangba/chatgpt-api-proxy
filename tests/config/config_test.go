@@ -18,6 +18,9 @@ func Test_initConfigs(t *testing.T) {
 				Server: config.ServerConfig{
 					Port: "8080",
 				},
+				OpenAI: config.OpenAIConfig{
+					APIKey: "YOUR_API_KEY",
+				},
 			},
 		},
 	}

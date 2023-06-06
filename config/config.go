@@ -18,14 +18,22 @@ func NewConfigStore() *Config {
 
 type Config struct {
 	Server ServerConfig
+	OpenAI OpenAIConfig
+}
+
+func (s *Config) GetServerPort() string {
+	return ":" + s.Server.Port
 }
 
 type ServerConfig struct {
 	Port string `yaml:"port"`
 }
 
-func (s *Config) GetServerPort() string {
-	return ":" + s.Server.Port
+type OpenAIConfig struct {
+	Type     string `yaml:"type"`
+	APIKey   string `yaml:"apiKey"`
+	UserName string `yaml:"userName"`
+	Password string `yaml:"password"`
 }
 
 func initConfigs() {
@@ -45,6 +53,7 @@ func initConfigs() {
 	}
 
 	port := viper.GetString("server.port")
+
 	logrus.Info("port: ", port)
 
 	if err := viper.Unmarshal(&Store); err != nil {
