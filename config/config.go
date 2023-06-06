@@ -60,6 +60,8 @@ func initConfigs() {
 	if err := viper.Unmarshal(&Store); err != nil {
 		log.Fatal(err)
 	}
-
+	// we prefer use ENV variable for sensitive data
+	openAIApiKey := os.Getenv("OPENAI_API_KEY")
+	Store.OpenAI.APIKey = openAIApiKey
 	logrus.Info("Load OpenAIConfig: ", Store.OpenAI)
 }
