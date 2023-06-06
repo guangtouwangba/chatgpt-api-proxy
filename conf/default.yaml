@@ -2,4 +2,4 @@ server:
   port: 8080
 
 openAi:
-  apiKey: "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"
+  apiKey: ""
