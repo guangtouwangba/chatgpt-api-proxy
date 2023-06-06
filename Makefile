@@ -19,3 +19,7 @@ coverage:
 	@echo "Coverage..."
 	@go test -coverprofile=coverage.out ./...
 	@go tool cover -html=coverage.out
+
+
+COVERAGE_THRESHOLD=80
+
