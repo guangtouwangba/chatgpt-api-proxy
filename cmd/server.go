@@ -4,8 +4,7 @@ Copyright © 2023 NAME HERE <EMAIL ADDRESS>
 package cmd
 
 import (
-	"chatgpt-api-proxy/internal/server"
-
+	"chatgpt-api-proxy/pkg/server"
 	"github.com/spf13/cobra"
 )
 

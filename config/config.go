@@ -60,4 +60,6 @@ func initConfigs() {
 	if err := viper.Unmarshal(&Store); err != nil {
 		log.Fatal(err)
 	}
+
+	logrus.Info("Load OpenAIConfig: ", Store.OpenAI)
 }

@@ -3,11 +3,11 @@ package openai
 import (
 	"bytes"
 	"chatgpt-api-proxy/internal/constant"
+	"context"
 	"encoding/json"
 	"net/http"
 
 	"github.com/pkg/errors"
-	"golang.org/x/net/context"
 )
 
 const completionBaseURL = "https://api.openai.com/v1/completions"
@@ -31,14 +31,36 @@ type CompletionRequest struct {
 	Temperature float64         `json:"temperature"`
 }
 
+// CompletionResponse is a response from the completion endpoint.
 type CompletionResponse struct {
+	ID      string   `json:"id"`
+	Object  string   `json:"object"`
+	Created int64    `json:"created"`
+	Model   string   `json:"model"`
+	Choices []Choice `json:"choices"`
+	Usage   Usage    `json:"usage"`
+}
+
+// Choice is a choice from the completion endpoint.
+type Choice struct {
+	Text         string      `json:"text"`
+	Index        int         `json:"index"`
+	Logprobs     interface{} `json:"logprobs"`
+	FinishReason string      `json:"finish_reason"`
+}
+
+// Usage is a usage from the completion endpoint.
+type Usage struct {
+	PromptTokens     int `json:"prompt_tokens"`
+	CompletionTokens int `json:"completion_tokens"`
+	TotalTokens      int `json:"total_tokens"`
 }
 
 type StreamCompletionResponse struct {
 }
 
 // Completion returns a completion response.
-func (c *Client) Completion(ctx context.Context, request CompletionRequest) (*CompletionResponse, error) {
+func (c *Client) Completion(ctx context.Context, request *CompletionRequest) (*CompletionResponse, error) {
 	if request.Model == "" {
 		request.Model = Davinci
 	}

@@ -1,5 +1,7 @@
 package constant
 
+import "net/http"
+
 type ErrorCode int
 
 const (
@@ -58,8 +60,33 @@ var ErrorMessages = map[ErrorCode]string{
 	JSONUnmarshalError:      "Json unmarshal error",
 }
 
+var ErrorCodesToHTTPStatusCodes = map[ErrorCode]int{
+	InternalError:           http.StatusInternalServerError,
+	InvalidRequestError:     http.StatusBadRequest,
+	AuthenticationError:     http.StatusUnauthorized,
+	RateLimitError:          http.StatusTooManyRequests,
+	InternalServerError:     http.StatusInternalServerError,
+	ServiceUnavailableError: http.StatusServiceUnavailable,
+	ForbiddenError:          http.StatusForbidden,
+	NotFoundError:           http.StatusNotFound,
+	ConflictError:           http.StatusConflict,
+	ValidationError:         http.StatusBadRequest,
+	JSONMarshalError:        http.StatusInternalServerError,
+	HTTPRequestError:        http.StatusInternalServerError,
+	TooManyRequestsError:    http.StatusTooManyRequests,
+	GatewayTimeoutError:     http.StatusGatewayTimeout,
+	JSONUnmarshalError:      http.StatusInternalServerError,
+}
+
 func (e *BaseError) Error() string {
 	return e.Message
+}
+
+func NewBaseError(code ErrorCode, message string) BaseError {
+	return BaseError{
+		Code:    code,
+		Message: message,
+	}
 }
 
 func Error(code ErrorCode) error {

@@ -1,4 +1,7 @@
 
+dev:
+	@echo "Build for dev..."
+	@go build -o proxy
 
 build:
 	@echo "Building..."
