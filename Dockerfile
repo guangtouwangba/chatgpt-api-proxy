@@ -9,7 +9,7 @@ COPY . .
 RUN apk add --no-cache make && go mod download
 
 # 编译
-RUN make build
+RUN go build -o ./bin/proxy
 
 # 运行
 CMD ["./bin/proxy", "server"]

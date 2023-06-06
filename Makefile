@@ -2,7 +2,7 @@
 
 build:
 	@echo "Building..."
-	@go build -o ./bin/proxy
+	@docker build -t proxy --build-arg ARCH=arm64v8 -f Dockerfile .
 
 test:
 	@echo "Testing..."
