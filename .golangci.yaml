@@ -11,7 +11,6 @@ linters:
     - bodyclose
     - containedctx
     - contextcheck
-    - cyclop
     - deadcode
     - decorder
     - dogsled
@@ -45,7 +44,6 @@ linters:
     - goprintffuncname
     - gosec
     - gosimple
-    - gosmopolitan
     - govet
     - grouper
     - ifshort
@@ -59,7 +57,6 @@ linters:
     - maintidx
     - makezero
     - maligned
-    - mirror
     - misspell
     - musttag
     - nakedret
@@ -83,8 +80,6 @@ linters:
     - staticcheck
     - structcheck
     - stylecheck
-    - tagalign
-    - tagliatelle
     - tenv
     - testableexamples
     - testpackage
@@ -98,8 +93,8 @@ linters:
     - wastedassign
     - whitespace
     - wrapcheck
-    - zerologlint
   disable:
+    - tagliatelle
     - gochecknoinits
     - depguard
     - wsl
