@@ -1,5 +1,5 @@
 
-COVERAGE_THRESHOLD=0.0
+COVERAGE_THRESHOLD=0
 
 
 dev:
@@ -26,7 +26,8 @@ coverage.out:
 
 # 检查覆盖率是否达到阈值
 check-coverage: coverage.out
-	@go tool cover -func=coverage.out | grep total | awk '{ print substr($$3, 1, length($$3)-1) }' | { read cov; test "$$cov" -ge "$(COVERAGE_THRESHOLD)" || { echo Coverage is below $(COVERAGE_THRESHOLD)%; exit 1; }; }
+	@go tool cover -func=coverage.out | grep total | awk '{ print substr($$3, 1, length($$3)-1) }' | { read cov; result=`echo "$$cov >= $(COVERAGE_THRESHOLD)" | bc -l`; if [ $$result -eq 0 ]; then echo Coverage is below $(COVERAGE_THRESHOLD)%; exit 1; fi; }
+
 
 .PHONY: test coverage.outcheck-coverage
 
