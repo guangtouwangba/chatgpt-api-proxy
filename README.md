@@ -15,6 +15,13 @@ ChatGPT API Proxy支持以下功能：
 
 请参考项目文档，了解如何安装和配置ChatGPT API Proxy，以及如何使用API和命令行工具。
 
+# 部署
+## Railway部署
+[![Deploy on Railway](https://railway.app/button.svg)](https://railway.app/new/template/ZweBXA)
+
+## Vercel部署
+[![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https%3A%2F%2Fgithub.com%2Fvercel%2Fnext.js%2Ftree%2Fcanary%2Fexamples%2Fhello-world)
+
 # 贡献
 
 欢迎您参与贡献ChatGPT API Proxy项目，包括提交Bug报告、提出改进建议、编写文档、编写代码等。请参考项目贡献指南，了解如何参与贡献。

@@ -2,6 +2,10 @@ FROM golang:alpine
 
 WORKDIR /app
 
+ENV CONFIG_PATH /config
+
+ADD $CONFIG_PATH /config
+
 # 将代码复制到容器中
 COPY . .
 
