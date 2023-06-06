@@ -4,3 +4,4 @@ proxy
 .idea/workspace.xml
 .idea/*.iml
 .vercel
+coverage.out
