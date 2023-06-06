@@ -34,6 +34,7 @@ type OpenAIConfig struct {
 	APIKey   string `yaml:"apiKey"`
 	UserName string `yaml:"userName"`
 	Password string `yaml:"password"`
+	Model    string `yaml:"model"`
 }
 
 func initConfigs() {
