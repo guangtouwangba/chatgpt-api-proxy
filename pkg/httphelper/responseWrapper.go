@@ -1,9 +1,10 @@
-package httpHelper
+package httphelper
 
 import (
 	"chatgpt-api-proxy/internal/constant"
-	"github.com/gin-gonic/gin"
 	"net/http"
+
+	"github.com/gin-gonic/gin"
 )
 
 type BaseResponse struct {

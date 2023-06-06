@@ -3,7 +3,8 @@ package api
 import (
 	"chatgpt-api-proxy/internal/constant"
 	"chatgpt-api-proxy/internal/openai"
-	"chatgpt-api-proxy/pkg/httpHelper"
+	"chatgpt-api-proxy/pkg/httphelper"
+
 	"github.com/gin-gonic/gin"
 	"github.com/pkg/errors"
 )
@@ -40,13 +41,13 @@ func HandleCompletion(c *gin.Context) {
 	request := CompletionRequest{}
 	err := c.Bind(&request)
 	if err != nil {
-		httpHelper.WrapperError(c, constant.NewBaseError(constant.InvalidRequestError, err.Error()))
+		httphelper.WrapperError(c, constant.NewBaseError(constant.InvalidRequestError, err.Error()))
 		return
 	}
 
 	// validate request
 	if !isSupportedModel(request.Model) {
-		httpHelper.WrapperError(c, constant.NewBaseError(constant.InvalidRequestError, "no supported model"))
+		httphelper.WrapperError(c, constant.NewBaseError(constant.InvalidRequestError, "no supported model"))
 		return
 	}
 
@@ -60,14 +61,14 @@ func HandleCompletion(c *gin.Context) {
 	})
 	if err != nil {
 		if errors.Is(err, constant.Error(constant.GatewayTimeoutError)) {
-			httpHelper.WrapperError(c, constant.NewBaseError(constant.GatewayTimeoutError, err.Error()))
+			httphelper.WrapperError(c, constant.NewBaseError(constant.GatewayTimeoutError, err.Error()))
 			return
 		}
-		httpHelper.WrapperError(c, constant.NewBaseError(constant.InternalError, err.Error()))
+		httphelper.WrapperError(c, constant.NewBaseError(constant.InternalError, err.Error()))
 		return
 	}
 
-	httpHelper.WrapperSuccess(c, response)
+	httphelper.WrapperSuccess(c, response)
 }
 
 func isSupportedModel(model string) bool {

@@ -56,14 +56,12 @@ linters:
     - loggercheck
     - maintidx
     - makezero
-    - maligned
     - misspell
     - musttag
     - nakedret
     - nestif
     - nilerr
     - nilnil
-    - nlreturn
     - noctx
     - nolintlint
     - nonamedreturns
@@ -94,6 +92,8 @@ linters:
     - whitespace
     - wrapcheck
   disable:
+    - nlreturn
+    - tagalign
     - tagliatelle
     - gochecknoinits
     - depguard
