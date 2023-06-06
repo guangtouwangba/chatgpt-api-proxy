@@ -1,8 +1,8 @@
-#ChatGPT API Proxy
+# ChatGPT API Proxy
 ChatGPT API Proxy是一个基于Golang和Gin框架的API代理服务，旨在提供对ChatGPT服务的转发和增强功能。ChatGPT是一个自然语言处理模型，可以根据用户输入生成自然的回复，而ChatGPT
 API Proxy可以帮助您更方便地使用ChatGPT服务。
 
-#功能
+# 功能
 ChatGPT API Proxy支持以下功能：
 
 - 转发ChatGPT请求：您可以将来自客户端的ChatGPT请求发送到ChatGPT API Proxy，然后将请求转发到ChatGPT服务。支持基于API和基于USE认证形式的请求。
