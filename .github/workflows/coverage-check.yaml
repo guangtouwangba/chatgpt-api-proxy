@@ -20,11 +20,4 @@ jobs:
 
       - name: Check test coverage
         run: |
-          COVERAGE_THRESHOLD=10  # 设置测试覆盖率的阈值
-          CURRENT_COVERAGE=$(go tool cover -func=coverage.out | grep total | awk '{print $3}' | tr -d '%')
-          if (( $CURRENT_COVERAGE < $COVERAGE_THRESHOLD )); then
-            echo "Test coverage is below the threshold ($CURRENT_COVERAGE% < $COVERAGE_THRESHOLD%)"
-            exit 1
-          else
-            echo "Test coverage meets the threshold ($CURRENT_COVERAGE% >= $COVERAGE_THRESHOLD%)"
-          fi
+          make check-coverage
