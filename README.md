@@ -5,11 +5,11 @@ API Proxy可以帮助您更方便地使用ChatGPT服务。
 # 功能
 ChatGPT API Proxy支持以下功能：
 
-- 转发ChatGPT请求：您可以将来自客户端的ChatGPT请求发送到ChatGPT API Proxy，然后将请求转发到ChatGPT服务。支持基于API和基于USE认证形式的请求。
-- 流式API返回：ChatGPT API Proxy支持流式API返回，可以更快地返回结果，提高用户体验。
-- Token使用计量：ChatGPT API Proxy支持对Token的使用计量，以及价格计算，方便您管理和计费。
-- API日志监控：ChatGPT API Proxy提供API日志监控功能，可以帮助您追踪和分析API使用情况。
-  Prompt查询：ChatGPT API Proxy支持Prompt查询功能，可以帮助您更方便地查询和管理Prompt。
+- [ ] 转发ChatGPT请求：您可以将来自客户端的ChatGPT请求发送到ChatGPT API Proxy，然后将请求转发到ChatGPT服务。支持基于API和基于USE认证形式的请求。
+- [ ] 流式API返回：ChatGPT API Proxy支持流式API返回，可以更快地返回结果，提高用户体验。
+- [ ] Token使用计量：ChatGPT API Proxy支持对Token的使用计量，以及价格计算，方便您管理和计费。
+- [ ] API日志监控：ChatGPT API Proxy提供API日志监控功能，可以帮助您追踪和分析API使用情况。
+- [ ] Prompt查询：ChatGPT API Proxy支持Prompt查询功能，可以帮助您更方便地查询和管理Prompt。
 
 # 使用方法
 
