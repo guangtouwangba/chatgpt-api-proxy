@@ -4,7 +4,7 @@ API Proxy可以帮助您更方便地使用ChatGPT服务。
 
 # 功能
 ChatGPT API Proxy支持以下功能：
-
+### 目前正在开发中
 - [ ] 转发ChatGPT请求：您可以将来自客户端的ChatGPT请求发送到ChatGPT API Proxy，然后将请求转发到ChatGPT服务。支持基于API和基于USE认证形式的请求。
 - [ ] 流式API返回：ChatGPT API Proxy支持流式API返回，可以更快地返回结果，提高用户体验。
 - [ ] Token使用计量：ChatGPT API Proxy支持对Token的使用计量，以及价格计算，方便您管理和计费。
