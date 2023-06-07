@@ -1,6 +1,11 @@
 name: Test Coverage Check
 
-on: [ push, pull_request ]
+on:
+  workflow_run:
+    workflows: ["Lint Test Checker"]
+    branches: [ "master" ]
+    types:
+      - completed
 
 jobs:
   test_coverage:
