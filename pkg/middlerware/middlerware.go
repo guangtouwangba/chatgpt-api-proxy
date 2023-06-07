@@ -1,18 +1,21 @@
 package middlerware
 
 import (
+	"chatgpt-api-proxy/internal/constant"
+	"chatgpt-api-proxy/pkg/httphelper"
+
 	"github.com/gin-gonic/gin"
-	"net/http"
 )
 
-// Recover 中间件
+// Recover is a middleware that recovers from any panics and writes a 500 if there was one.
 func Recover(c *gin.Context) {
 	defer func() {
 		if err := recover(); err != nil {
-			c.JSON(http.StatusInternalServerError, gin.H{
-				"code": 500,
-				"msg":  "服务器内部错误",
-			})
+			if err, ok := err.(error); ok {
+				httphelper.WrapperError(c, constant.NewBaseError(constant.InternalServerError, err.Error()))
+			} else {
+				httphelper.WrapperError(c, constant.NewBaseError(constant.InternalServerError, "internal server error"))
+			}
 			c.Abort()
 			return
 		}
