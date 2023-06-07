@@ -21,8 +21,14 @@ jobs:
           go-version: 1.19
 
       - name: Build and test
+        env:
+          HOST: ${{ secrets.HOST }}
+          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
         run: make test
 
       - name: Check test coverage
+        env:
+          HOST: ${{ secrets.HOST }}
+          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
         run: |
           make check-coverage
