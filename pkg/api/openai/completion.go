@@ -4,28 +4,12 @@ import (
 	"chatgpt-api-proxy/config"
 	"chatgpt-api-proxy/internal/constant"
 	"chatgpt-api-proxy/pkg/httphelper"
-	"github.com/pkg/errors"
-	"github.com/sashabaranov/go-openai"
 	"net/http"
 
+	"github.com/pkg/errors"
+	"github.com/sashabaranov/go-openai"
+
 	"github.com/gin-gonic/gin"
-)
-
-var completionModels = []string{
-	"text-davinci-003",
-	"babage",
-}
-
-type CompletionModel string
-
-const (
-	Davinci CompletionModel = "text-davinci-003"
-	Babbage CompletionModel = "babbage"
-)
-
-const (
-	completionBaseURL = "https://api.openai.com/v1/completions"
-	defaultBufferSize = 1024
 )
 
 func InitCompletionRouter(r *gin.Engine) {

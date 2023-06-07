@@ -1,14 +1,15 @@
-package intergrationtest
+package integration_test
 
 import (
 	"bytes"
 	api "chatgpt-api-proxy/pkg/api/openai"
 	intergrationtest "chatgpt-api-proxy/tests/intergrationtest/common"
 	"encoding/json"
-	"golang.org/x/net/context"
 	"io"
 	"net/http"
 	"testing"
+
+	"golang.org/x/net/context"
 )
 
 func TestCompletion(t *testing.T) {
@@ -39,6 +40,10 @@ func TestCompletion(t *testing.T) {
 	if err != nil {
 		t.Fatal(err)
 	}
+
+	defer func() {
+		_ = resp.Body.Close()
+	}()
 
 	if resp.StatusCode != http.StatusOK && resp.StatusCode != http.StatusTooManyRequests {
 		// parse error response
