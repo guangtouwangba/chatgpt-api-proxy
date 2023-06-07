@@ -2,7 +2,7 @@ package router
 
 import (
 	api "chatgpt-api-proxy/pkg/api/openai"
-	"chatgpt-api-proxy/pkg/server"
+	"chatgpt-api-proxy/pkg/middlerware"
 	"net/http"
 
 	"github.com/gin-gonic/gin"
@@ -10,7 +10,7 @@ import (
 
 func NewRouter() *gin.Engine {
 	r := gin.Default()
-	r.Use(server.Recover)
+	r.Use(middlerware.Recover)
 	raw := r.Group("/")
 	raw.GET("", func(c *gin.Context) {
 		c.JSON(http.StatusOK, gin.H{
