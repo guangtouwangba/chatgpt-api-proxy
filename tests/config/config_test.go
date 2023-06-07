@@ -20,7 +20,6 @@ func Test_initConfigs(t *testing.T) {
 				},
 				OpenAI: config.OpenAIConfig{
 					APIKey: "YOUR_API_KEY",
-					Model:  "gpt-3.5-turbo",
 				},
 			},
 		},
