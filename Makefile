@@ -29,5 +29,10 @@ check-coverage: coverage.out
 	@go tool cover -func=coverage.out | grep total | awk '{ print substr($$3, 1, length($$3)-1) }' | { read cov; result=`echo "$$cov >= $(COVERAGE_THRESHOLD)" | bc -l`; if [ $$result -eq 0 ]; then echo Coverage is below $(COVERAGE_THRESHOLD)%; exit 1; fi; }
 
 
+integration-test:
+	@echo "Integration testing..."
+	@go test -v -tags=integration ./...
+
+
 .PHONY: test coverage.outcheck-coverage
 
