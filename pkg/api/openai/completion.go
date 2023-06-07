@@ -6,7 +6,11 @@ import (
 	"chatgpt-api-proxy/internal/constant"
 	"chatgpt-api-proxy/pkg/httphelper"
 	"encoding/json"
+	"io"
+	"log"
 	"net/http"
+
+	"github.com/pkg/errors"
 
 	"github.com/gin-gonic/gin"
 )
@@ -23,7 +27,10 @@ const (
 	Babbage CompletionModel = "babbage"
 )
 
-const completionBaseURL = "https://api.openai.com/v1/completions"
+const (
+	completionBaseURL = "https://api.openai.com/v1/completions"
+	defaultBufferSize = 1024
+)
 
 func InitCompletionRouter(r *gin.Engine) {
 	api := r.Group("/api/openai")
@@ -120,14 +127,7 @@ func NewClient() *Client {
 }
 
 func (c *Client) SendCompletionRequest(ctx *gin.Context, request CompletionRequest) {
-	if request.Model == "" {
-		request.Model = string(Davinci)
-	}
-
-	if !isSupportedModel(request.Model) {
-		httphelper.WrapperError(ctx, constant.NewBaseError(constant.InvalidRequestError, "not supported model"))
-		return
-	}
+	validateModel(ctx, request)
 
 	payload, err := json.Marshal(request)
 	if err != nil {
@@ -139,8 +139,7 @@ func (c *Client) SendCompletionRequest(ctx *gin.Context, request CompletionReque
 		httphelper.WrapperError(ctx, constant.NewBaseError(constant.InternalError, err.Error()))
 	}
 
-	req.Header.Add("Content-Type", "application/json")
-	req.Header.Add("Authorization", "Bearer "+c.APIKey)
+	c.initRequestHeader(ctx, req)
 
 	resp, err := c.httpClient.Do(req)
 
@@ -153,6 +152,18 @@ func (c *Client) SendCompletionRequest(ctx *gin.Context, request CompletionReque
 		_ = resp.Body.Close()
 	}()
 
+	c.checkResponse(ctx, resp, err)
+
+	var completionResponse CompletionResponse
+	err = json.NewDecoder(resp.Body).Decode(&completionResponse)
+	if err != nil {
+		httphelper.WrapperError(ctx, constant.NewBaseError(constant.JSONUnmarshalError, err.Error()))
+	}
+
+	httphelper.WrapperSuccess(ctx, resp)
+}
+
+func (c *Client) checkResponse(ctx *gin.Context, resp *http.Response, err error) {
 	if resp.StatusCode != http.StatusOK {
 		switch resp.StatusCode {
 		case http.StatusUnauthorized:
@@ -167,12 +178,78 @@ func (c *Client) SendCompletionRequest(ctx *gin.Context, request CompletionReque
 			httphelper.WrapperError(ctx, constant.NewBaseError(constant.InternalError, err.Error()))
 		}
 	}
+}
 
-	var completionResponse CompletionResponse
-	err = json.NewDecoder(resp.Body).Decode(&completionResponse)
-	if err != nil {
-		httphelper.WrapperError(ctx, constant.NewBaseError(constant.JSONUnmarshalError, err.Error()))
+func validateModel(ctx *gin.Context, request CompletionRequest) {
+	if request.Model == "" {
+		request.Model = string(Davinci)
 	}
 
-	httphelper.WrapperSuccess(ctx, resp)
+	if !isSupportedModel(request.Model) {
+		httphelper.WrapperError(ctx, constant.NewBaseError(constant.InvalidRequestError, "not supported model"))
+		return
+	}
+}
+
+func (c *Client) SendStreamCompletion(ctx *gin.Context, request *CompletionRequest) {
+	request.Stream = true
+	validateModel(ctx, *request)
+
+	payload, err := json.Marshal(request)
+	if err != nil {
+		httphelper.WrapperError(ctx, constant.NewBaseError(constant.InternalError, err.Error()))
+		return
+	}
+
+	req, err := http.NewRequestWithContext(ctx, http.MethodPost, completionBaseURL, bytes.NewReader(payload))
+	if err != nil {
+		httphelper.WrapperError(ctx, constant.NewBaseError(constant.InternalError, err.Error()))
+		return
+	}
+
+	c.initRequestHeader(ctx, req)
+
+	resp, err := c.httpClient.Do(req)
+	if err != nil {
+		httphelper.WrapperError(ctx, constant.NewBaseError(constant.InternalError, err.Error()))
+		return
+	}
+
+	defer func() {
+		_ = resp.Body.Close()
+	}()
+
+	c.checkResponse(ctx, resp, err)
+
+	buf := make([]byte, defaultBufferSize)
+	for {
+		if n, err := resp.Body.Read(buf); errors.Is(err, io.EOF) || n == 0 {
+			return
+		} else if err != nil {
+			log.Println("error while reading respbody: ", err.Error())
+			ctx.String(http.StatusInternalServerError, err.Error())
+			return
+		} else {
+			if _, err = ctx.Writer.Write(buf[:n]); err != nil {
+				log.Println("error while writing resp: ", err.Error())
+				ctx.String(http.StatusInternalServerError, err.Error())
+				return
+			}
+			if f, ok := ctx.Writer.(http.Flusher); ok {
+				f.Flush()
+			}
+		}
+	}
+}
+
+func (c *Client) initRequestHeader(ctx *gin.Context, req *http.Request) {
+	// copy headers from gin request
+	for k, v := range ctx.Request.Header {
+		req.Header.Set(k, v[0])
+	}
+
+	// if authorization header is not set, set it
+	if req.Header.Get("Authorization") == "" {
+		req.Header.Add("Authorization", "Bearer "+c.APIKey)
+	}
 }

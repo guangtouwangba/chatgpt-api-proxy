@@ -93,7 +93,6 @@ linters:
     - wrapcheck
   disable:
     - nlreturn
-    - tagalign
     - tagliatelle
     - gochecknoinits
     - depguard
