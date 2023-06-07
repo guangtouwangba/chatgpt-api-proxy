@@ -63,6 +63,8 @@ func initConfigs() {
 	}
 	// we prefer use ENV variable for sensitive data
 	openAIApiKey := os.Getenv("OPENAI_API_KEY")
-	Store.OpenAI.APIKey = openAIApiKey
+	if openAIApiKey != "" {
+		openAIApiKey = Store.OpenAI.APIKey
+	}
 	logrus.Info("Load OpenAIConfig: ", Store.OpenAI)
 }
