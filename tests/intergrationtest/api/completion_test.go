@@ -3,7 +3,9 @@ package integration_test
 import (
 	"bytes"
 	api "chatgpt-api-proxy/pkg/api/openai"
-	intergrationtest "chatgpt-api-proxy/tests/intergrationtest/common"
+	integrationtest "chatgpt-api-proxy/tests/intergrationtest/common"
+	"fmt"
+
 	"encoding/json"
 	"io"
 	"net/http"
@@ -13,9 +15,9 @@ import (
 )
 
 func TestCompletion(t *testing.T) {
-	config := intergrationtest.InitConfig()
+	config := integrationtest.InitConfig()
 	ctx := context.Background()
-	testURL := "http://localhost:8080/api/openai/completion"
+	testURL := fmt.Sprintf("%s/api/v1/openai/completion", config.Host)
 
 	request := &api.CompletionRequest{
 		Model:  "text-davinci-003",
