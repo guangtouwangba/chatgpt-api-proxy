@@ -53,4 +53,7 @@ jobs:
           # Optional: if set to true then the action don't cache or restore ~/.cache/go-build.
           # skip-build-cache: true
       - name: Test
+        env:
+          HOST: ${{ secrets.HOST }}
+          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
         run: go test -v ./...
