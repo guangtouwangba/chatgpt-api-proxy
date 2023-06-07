@@ -9,7 +9,13 @@ type IntegrationTestConfig struct {
 
 func InitConfig() *IntegrationTestConfig {
 	apiKey := os.Getenv("OPENAI_API_KEY")
+	if apiKey == "" {
+		panic("OPENAI_API_KEY is empty")
+	}
 	host := os.Getenv("HOST")
+	if host == "" {
+		panic("HOST is empty")
+	}
 
 	return &IntegrationTestConfig{
 		APIKey: apiKey,
