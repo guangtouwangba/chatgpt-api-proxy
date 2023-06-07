@@ -3,6 +3,9 @@ package middlerware
 import (
 	"chatgpt-api-proxy/internal/constant"
 	"chatgpt-api-proxy/pkg/httphelper"
+	"runtime/debug"
+
+	"github.com/sirupsen/logrus"
 
 	"github.com/gin-gonic/gin"
 )
@@ -12,9 +15,11 @@ func Recover(c *gin.Context) {
 	defer func() {
 		if err := recover(); err != nil {
 			if err, ok := err.(error); ok {
-				httphelper.WrapperError(c, constant.NewBaseError(constant.InternalServerError, err.Error()))
+				stack := string(debug.Stack())
+				logrus.Info(stack)
+				httphelper.WrapperError(c, constant.NewBaseErrorWithMsg(constant.InternalServerError, err.Error()))
 			} else {
-				httphelper.WrapperError(c, constant.NewBaseError(constant.InternalServerError, "internal server error"))
+				httphelper.WrapperError(c, constant.NewBaseErrorWithMsg(constant.InternalServerError, "internal server error"))
 			}
 			c.Abort()
 			return

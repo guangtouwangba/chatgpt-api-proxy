@@ -82,10 +82,17 @@ func (e *BaseError) Error() string {
 	return e.Message
 }
 
-func NewBaseError(code ErrorCode, message string) BaseError {
+func NewBaseErrorWithMsg(code ErrorCode, message string) BaseError {
 	return BaseError{
 		Code:    code,
 		Message: message,
+	}
+}
+
+func NewBaseError(code ErrorCode) BaseError {
+	return BaseError{
+		Code:    code,
+		Message: ErrorMessages[code],
 	}
 }
 

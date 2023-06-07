@@ -26,7 +26,8 @@ func (s *Config) GetServerPort() string {
 }
 
 type ServerConfig struct {
-	Port string `yaml:"port"`
+	Port  string `yaml:"port"`
+	Proxy string `yaml:"proxy"`
 }
 
 type OpenAIConfig struct {
