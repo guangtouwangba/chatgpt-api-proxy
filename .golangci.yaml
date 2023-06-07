@@ -100,6 +100,7 @@ linters:
     - godox
     - gci
     - gofumpt
+    - tagalign
   # Default: false
   #  enable-all: true
   # Disable specific linter
