@@ -80,7 +80,6 @@ linters:
     - stylecheck
     - tenv
     - testableexamples
-    - testpackage
     - thelper
     - typecheck
     - unconvert
@@ -92,6 +91,7 @@ linters:
     - whitespace
     - wrapcheck
   disable:
+    - testpackage
     - nlreturn
     - tagliatelle
     - gochecknoinits

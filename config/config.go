@@ -17,20 +17,24 @@ func NewConfigStore() *Config {
 }
 
 type Config struct {
-	Server ServerConfig
-	OpenAI OpenAIConfig
+	Server serverConfig
+	OpenAI openAIConfig
 }
 
 func (s *Config) GetServerPort() string {
 	return ":" + s.Server.Port
 }
 
-type ServerConfig struct {
+func (s *Config) GetOpenAIApiKey() string {
+	return s.OpenAI.APIKey
+}
+
+type serverConfig struct {
 	Port  string `yaml:"port"`
 	Proxy string `yaml:"proxy"`
 }
 
-type OpenAIConfig struct {
+type openAIConfig struct {
 	Type     string `yaml:"type"`
 	APIKey   string `yaml:"apiKey"`
 	UserName string `yaml:"userName"`
@@ -65,5 +69,5 @@ func initConfigs() {
 	if openAIApiKey != "" {
 		Store.OpenAI.APIKey = openAIApiKey
 	}
-	logrus.Info("Load OpenAIConfig: ", Store.OpenAI)
+	logrus.Info("Load openAIConfig: ", Store.OpenAI)
 }
