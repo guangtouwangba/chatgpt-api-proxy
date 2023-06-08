@@ -6,7 +6,7 @@ package integration_test
 import (
 	"bytes"
 	api "chatgpt-api-proxy/pkg/api/openai"
-	integrationtest "chatgpt-api-proxy/tests/intergrationtest/common"
+	integrationtest "chatgpt-api-proxy/tests/integrationtest/common"
 	"fmt"
 
 	"encoding/json"
