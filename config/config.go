@@ -1,10 +1,9 @@
 package config
 
 import (
-	"log"
+	"chatgpt-api-proxy/pkg/logger"
 	"os"
 
-	"github.com/sirupsen/logrus"
 	"github.com/spf13/viper"
 )
 
@@ -53,21 +52,21 @@ func initConfigs() {
 
 	err := viper.ReadInConfig()
 	if err != nil {
-		logrus.Info("fatal error config file: default \n", err)
+		logger.Errorf("Fatal error config file: %s \n", err)
 		os.Exit(1)
 	}
 
 	port := viper.GetString("server.port")
 
-	logrus.Info("port: ", port)
+	logger.Infof("Server port: %s", port)
 
 	if err := viper.Unmarshal(&Store); err != nil {
-		log.Fatal(err)
+		logger.Errorf("unable to decode into struct, %v", err)
 	}
 	// we prefer use ENV variable for sensitive data
 	openAIApiKey := os.Getenv("OPENAI_API_KEY")
 	if openAIApiKey != "" {
 		Store.OpenAI.APIKey = openAIApiKey
 	}
-	logrus.Info("Load openAIConfig: ", Store.OpenAI)
+	logger.Infof("OpenAI API Key: %s", Store.OpenAI.APIKey)
 }

@@ -4,12 +4,12 @@ import (
 	"chatgpt-api-proxy/config"
 	"chatgpt-api-proxy/internal/constant"
 	"chatgpt-api-proxy/pkg/httphelper"
+	"chatgpt-api-proxy/pkg/logger"
 	"io"
 
 	"github.com/gin-gonic/gin"
 	"github.com/pkg/errors"
 	"github.com/sashabaranov/go-openai"
-	"github.com/sirupsen/logrus"
 )
 
 func InitChatRouter(r *gin.Engine) *gin.Engine {
@@ -150,7 +150,7 @@ func streamChat(c *gin.Context, request *ChatCompletionRequest, client *openai.C
 		}
 		_, err = c.Writer.Write([]byte(resp.Choices[0].Delta.Content))
 		if err != nil && !errors.Is(err, io.EOF) {
-			logrus.Error(err)
+			logger.Infof("stream chat error: %v", err)
 			httphelper.WrapperError(c, constant.NewBaseErrorWithMsg(constant.InternalServerError, err.Error()))
 			return
 		}
