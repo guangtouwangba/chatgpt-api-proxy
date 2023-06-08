@@ -19,7 +19,7 @@ ChatGPT API Proxy支持以下功能：
 
 GPT3:  `${host}/api/openai/completion`
 
-GPT3.5, 4: `${host}/api/openai/completion`
+GPT3.5, 4: `${host}/api/openai/chat`
 
 ### 请求参数
 所有参数和openai官方文档一致，具体请参考[openai官方文档](https://beta.openai.com/docs/api-reference/completions/create)。
