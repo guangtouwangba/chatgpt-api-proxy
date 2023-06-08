@@ -5,15 +5,28 @@ API Proxy可以帮助您更方便地使用ChatGPT服务。
 # 功能
 ChatGPT API Proxy支持以下功能：
 ### 目前正在开发中
-- [ ] 转发ChatGPT请求：您可以将来自客户端的ChatGPT请求发送到ChatGPT API Proxy，然后将请求转发到ChatGPT服务。支持基于API和基于USE认证形式的请求。
-- [ ] 流式API返回：ChatGPT API Proxy支持流式API返回，可以更快地返回结果，提高用户体验。
+- [x] 转发ChatGPT请求：您可以将来自客户端的ChatGPT请求发送到ChatGPT API Proxy，然后将请求转发到ChatGPT服务。支持基于API和基于USE认证形式的请求。
+- [x] 流式API返回：ChatGPT API Proxy支持流式API返回，可以更快地返回结果，提高用户体验。
 - [ ] Token使用计量：ChatGPT API Proxy支持对Token的使用计量，以及价格计算，方便您管理和计费。
 - [ ] API日志监控：ChatGPT API Proxy提供API日志监控功能，可以帮助您追踪和分析API使用情况。
 - [ ] Prompt查询：ChatGPT API Proxy支持Prompt查询功能，可以帮助您更方便地查询和管理Prompt。
 
 # 使用方法
 
-请参考项目文档，了解如何安装和配置ChatGPT API Proxy，以及如何使用API和命令行工具。
+## API请求
+### 请求地址
+目前支持的API请求地址如下：
+
+GPT3:  `${host}/api/openai/completion`
+
+GPT3.5, 4: `${host}/api/openai/completion`
+
+### 请求参数
+所有参数和openai官方文档一致，具体请参考[openai官方文档](https://beta.openai.com/docs/api-reference/completions/create)。
+
+请求Header中可以包含`Authorization`字段，其值为`Bearer ${token}`，`${token}`为您的OpenAI API Token。
+
+如果不传，默认使用部署时使用的环境变量`OPENAI_API_KEY`。
 
 # 部署
 ## Railway部署
@@ -32,6 +45,7 @@ PORT
 ```markdown
 OPENAI_API_KEY
 ```
+
 
 # 贡献
 
