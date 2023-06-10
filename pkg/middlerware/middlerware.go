@@ -1,9 +1,9 @@
 package middlerware
 
 import (
-	"chatgpt-api-proxy/internal/constant"
 	"chatgpt-api-proxy/pkg/httphelper"
 	"chatgpt-api-proxy/pkg/logger"
+	"net/http"
 	"runtime/debug"
 
 	"github.com/gin-gonic/gin"
@@ -16,9 +16,9 @@ func Recover(c *gin.Context) {
 			if err, ok := err.(error); ok {
 				stack := string(debug.Stack())
 				logger.Errorf("panic: %v\n%s", err, stack)
-				httphelper.WrapperError(c, constant.NewBaseErrorWithMsg(constant.InternalServerError, err.Error()))
+				httphelper.WrapperError(c, httphelper.NewAPIError(http.StatusInternalServerError, err.Error()))
 			} else {
-				httphelper.WrapperError(c, constant.NewBaseErrorWithMsg(constant.InternalServerError, "internal server error"))
+				httphelper.WrapperError(c, httphelper.ErrInternalServerError)
 			}
 			c.Abort()
 			return

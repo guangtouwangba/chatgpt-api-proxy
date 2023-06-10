@@ -2,7 +2,6 @@ package api
 
 import (
 	"chatgpt-api-proxy/config"
-	"chatgpt-api-proxy/internal/constant"
 	"chatgpt-api-proxy/pkg/httphelper"
 	"net/http"
 
@@ -74,7 +73,7 @@ func HandleCompletion(c *gin.Context) {
 	request := CompletionRequest{}
 
 	if err := c.Bind(&request); err != nil {
-		httphelper.WrapperError(c, constant.NewBaseErrorWithMsg(constant.InvalidRequestError, err.Error()))
+		httphelper.WrapperError(c, httphelper.ErrInvalidRequestError)
 		return
 	}
 
@@ -99,10 +98,10 @@ func HandleCompletion(c *gin.Context) {
 	})
 	if err != nil {
 		if errors.Is(openai.ErrCompletionStreamNotSupported, err) || errors.Is(openai.ErrCompletionUnsupportedModel, err) {
-			httphelper.WrapperError(c, constant.NewBaseErrorWithMsg(constant.InvalidRequestError, err.Error()))
+			httphelper.WrapperError(c, httphelper.NewAPIError(http.StatusBadRequest, err.Error()))
 			return
 		}
-		httphelper.WrapperError(c, constant.NewBaseErrorWithMsg(constant.InternalError, err.Error()))
+		httphelper.WrapperError(c, httphelper.NewAPIError(http.StatusInternalServerError, err.Error()))
 		return
 	}
 

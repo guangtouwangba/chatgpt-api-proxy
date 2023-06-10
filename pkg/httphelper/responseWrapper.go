@@ -1,7 +1,7 @@
 package httphelper
 
 import (
-	"chatgpt-api-proxy/internal/constant"
+	"errors"
 	"net/http"
 
 	"github.com/gin-gonic/gin"
@@ -25,10 +25,19 @@ func WrapperSuccess(c *gin.Context, data interface{}) {
 	})
 }
 
-func WrapperError(c *gin.Context, err constant.BaseError) {
+func WrapperError(c *gin.Context, err error) {
+	apiError := &Error{}
+	if errors.As(err, &apiError) {
+		WrapperResponse(c, &BaseResponse{
+			Code:    apiError.Code,
+			Message: apiError.Message,
+			Data:    nil,
+		})
+		return
+	}
 	WrapperResponse(c, &BaseResponse{
-		Code:    constant.ErrorCodesToHTTPStatusCodes[err.Code],
-		Message: err.Message,
+		Code:    http.StatusInternalServerError,
+		Message: err.Error(),
 		Data:    nil,
 	})
 }

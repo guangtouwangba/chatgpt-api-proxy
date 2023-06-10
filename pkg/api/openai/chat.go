@@ -2,10 +2,10 @@ package api
 
 import (
 	"chatgpt-api-proxy/config"
-	"chatgpt-api-proxy/internal/constant"
 	"chatgpt-api-proxy/pkg/httphelper"
 	"chatgpt-api-proxy/pkg/logger"
 	"io"
+	"net/http"
 
 	"github.com/gin-gonic/gin"
 	"github.com/pkg/errors"
@@ -21,12 +21,7 @@ func InitChatRouter(r *gin.Engine) *gin.Engine {
 type ChatCompletionMessage struct {
 	Role    string `json:"role"`
 	Content string `json:"content"`
-
-	// This property isn't in the official documentation, but it's in
-	// the documentation for the official library for python:
-	// - https://github.com/openai/openai-python/blob/main/chatml.md
-	// - https://github.com/openai/openai-cookbook/blob/main/examples/How_to_count_tokens_with_tiktoken.ipynb
-	Name string `json:"name,omitempty"`
+	Name    string `json:"name,omitempty"`
 }
 
 // ChatCompletionRequest represents a request structure for chat completion API.
@@ -67,7 +62,7 @@ func HandleChat(c *gin.Context) {
 		request.Model = openai.GPT3Dot5Turbo
 	}
 	if err := c.ShouldBindJSON(&request); err != nil {
-		httphelper.WrapperError(c, constant.NewBaseErrorWithMsg(constant.InvalidRequestError, err.Error()))
+		httphelper.WrapperError(c, httphelper.ErrInvalidRequestError)
 		return
 	}
 
@@ -110,7 +105,7 @@ func chat(c *gin.Context, request *ChatCompletionRequest, client *openai.Client)
 	})
 
 	if err != nil {
-		httphelper.WrapperError(c, constant.NewBaseErrorWithMsg(constant.InvalidRequestError, err.Error()))
+		httphelper.WrapperError(c, httphelper.ErrInvalidRequestError)
 		return
 	}
 
@@ -134,14 +129,14 @@ func streamChat(c *gin.Context, request *ChatCompletionRequest, client *openai.C
 	})
 
 	if err != nil {
-		httphelper.WrapperError(c, constant.NewBaseErrorWithMsg(constant.InvalidRequestError, err.Error()))
+		httphelper.WrapperError(c, httphelper.NewAPIError(http.StatusInternalServerError, err.Error()))
 		return
 	}
 
 	for {
 		resp, err := response.Recv()
 		if err != nil && !errors.Is(err, io.EOF) {
-			httphelper.WrapperError(c, constant.NewBaseErrorWithMsg(constant.InternalError, err.Error()))
+			httphelper.WrapperError(c, httphelper.NewAPIError(http.StatusInternalServerError, err.Error()))
 			return
 		}
 		// stream chat response
@@ -151,7 +146,7 @@ func streamChat(c *gin.Context, request *ChatCompletionRequest, client *openai.C
 		_, err = c.Writer.Write([]byte(resp.Choices[0].Delta.Content))
 		if err != nil && !errors.Is(err, io.EOF) {
 			logger.Infof("stream chat error: %v", err)
-			httphelper.WrapperError(c, constant.NewBaseErrorWithMsg(constant.InternalServerError, err.Error()))
+			httphelper.WrapperError(c, httphelper.NewAPIError(http.StatusInternalServerError, err.Error()))
 			return
 		}
 	}
