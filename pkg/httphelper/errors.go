@@ -18,18 +18,18 @@ var (
 	ErrTooManyRequestsError    = NewAPIError(http.StatusTooManyRequests, "Too many requests")
 )
 
-// Error is a custom error type for API errors.
-type Error struct {
+// APIError is a custom error type for API errors.
+type APIError struct {
 	Code    int    `json:"code"`
 	Message string `json:"message"`
 }
 
-func (e Error) Error() string {
+func (e APIError) Error() string {
 	return e.Message
 }
 
-func NewAPIError(code int, message string) *Error {
-	return &Error{
+func NewAPIError(code int, message string) *APIError {
+	return &APIError{
 		Code:    code,
 		Message: message,
 	}

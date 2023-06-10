@@ -26,7 +26,7 @@ func WrapperSuccess(c *gin.Context, data interface{}) {
 }
 
 func WrapperError(c *gin.Context, err error) {
-	apiError := &Error{}
+	apiError := &APIError{}
 	if errors.As(err, &apiError) {
 		WrapperResponse(c, &BaseResponse{
 			Code:    apiError.Code,
