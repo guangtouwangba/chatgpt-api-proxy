@@ -17,7 +17,7 @@ ChatGPT API Proxy支持以下功能：
 ### 请求地址
 目前支持的API请求地址如下：
 
-GPT3:  `${host}/api/openai/completion`
+GPT3:  `${host}/api/openai/completions`
 
 GPT3.5, 4: `${host}/api/openai/chat`
 

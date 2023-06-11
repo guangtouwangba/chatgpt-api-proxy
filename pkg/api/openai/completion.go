@@ -1,8 +1,8 @@
 package api
 
 import (
-	"chatgpt-api-proxy/config"
 	"chatgpt-api-proxy/pkg/httphelper"
+	"chatgpt-api-proxy/pkg/middlerware"
 	"net/http"
 
 	"github.com/pkg/errors"
@@ -13,7 +13,7 @@ import (
 
 func InitCompletionRouter(r *gin.Engine) {
 	api := r.Group("/api/openai")
-	api.POST("/completion", HandleCompletion)
+	api.POST("/completions", middlerware.OpenAIUsage(), HandleCompletion)
 }
 
 type CompletionRequest struct {
@@ -78,7 +78,7 @@ func HandleCompletion(c *gin.Context) {
 	}
 
 	// call openai client
-	client := openai.NewClient(config.Store.OpenAI.APIKey)
+	client := openai.NewClient(getOpenAIAPIKey(c))
 	completion, err := client.CreateCompletion(c, openai.CompletionRequest{
 		Model:            request.Model,
 		Prompt:           request.Prompt,
@@ -106,5 +106,5 @@ func HandleCompletion(c *gin.Context) {
 	}
 
 	// return response
-	c.JSON(http.StatusOK, completion)
+	httphelper.WrapperSuccess(c, completion)
 }

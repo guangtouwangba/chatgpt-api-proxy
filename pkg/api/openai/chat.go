@@ -1,9 +1,9 @@
 package api
 
 import (
-	"chatgpt-api-proxy/config"
 	"chatgpt-api-proxy/pkg/httphelper"
 	"chatgpt-api-proxy/pkg/logger"
+	"chatgpt-api-proxy/pkg/middlerware"
 	"io"
 	"net/http"
 
@@ -14,7 +14,7 @@ import (
 
 func InitChatRouter(r *gin.Engine) *gin.Engine {
 	api := r.Group("/api/openai")
-	api.POST("/chat", HandleChat)
+	api.POST("/chat", middlerware.OpenAIUsage(), HandleChat)
 	return r
 }
 
@@ -66,7 +66,7 @@ func HandleChat(c *gin.Context) {
 		return
 	}
 
-	client := openai.NewClient(config.Store.OpenAI.APIKey)
+	client := openai.NewClient(getOpenAIAPIKey(c))
 
 	if request.Stream {
 		streamChat(c, &request, client)

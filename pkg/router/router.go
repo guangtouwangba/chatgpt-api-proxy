@@ -19,7 +19,7 @@ func NewRouter() *gin.Engine {
 	})
 
 	apiGroup := r.Group("/api")
-	apiGroup.GET("ping", func(c *gin.Context) {
+	apiGroup.GET("ping", middlerware.BodyLog(), func(c *gin.Context) {
 		c.JSON(http.StatusOK, gin.H{
 			"message": "pong",
 		})
