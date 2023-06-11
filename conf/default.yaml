@@ -3,3 +3,8 @@ server:
 
 openAi:
   apiKey: ""
+
+database:
+  enbale: false
+  supabaseUrl: ""
+  supabaseKey: ""
