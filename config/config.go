@@ -89,9 +89,8 @@ func InitConfig(env string) (*Config, error) {
 
 func loadConfigFile(env string) (*viper.Viper, error) {
 	v := viper.New()
-	v.SetConfigName("config-" + env + ".yaml")
-	v.SetConfigName("config-" + env + ".yml")
-	v.SetConfigType("yaml")
+	v.SetConfigName("config-" + env)
+	v.SetConfigName("config-" + env)
 	// default config path
 	v.AddConfigPath(".")
 	v.AddConfigPath("./conf")
