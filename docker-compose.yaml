@@ -1,0 +1,17 @@
+version: '3'
+services:
+  custom_app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    environment:
+      - env=dev
+      - CONFIG_PATH=./conf
+      - OPENAI_API_KEY=your_openai_api_key
+
+  postgres:
+    image: postgres
+    environment:
+      - POSTGRES_USER=admin
+      - POSTGRES_PASSWORD=admin
+      - POSTGRES_DB=chatgpt-proxy

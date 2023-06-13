@@ -1,0 +1,15 @@
+server:
+  port: 8080
+
+openAI:
+  apiKey: ""
+
+database:
+  enabled: false
+  host: ""
+  port: 5432
+  user: ""
+  password: ""
+  supabase:
+    url: ""
+    secret: ""

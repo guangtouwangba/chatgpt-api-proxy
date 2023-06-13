@@ -10,14 +10,23 @@ import (
 var Store *Config
 
 func NewConfigStore() *Config {
-	initConfigs()
+	env := os.Getenv("ENV")
+	// default to dev
+	if env == "" {
+		env = "dev"
+	}
+	config, err := InitConfig(env)
+	if err != nil {
+		logger.Panicf("Failed to load config: %v", err)
+	}
 
-	return Store
+	return config
 }
 
 type Config struct {
-	Server serverConfig
-	OpenAI openAIConfig
+	Server   serverConfig
+	OpenAI   openAIConfig
+	Database databaseConfig
 }
 
 func (s *Config) GetServerPort() string {
@@ -40,33 +49,97 @@ type openAIConfig struct {
 	Password string `yaml:"password"`
 }
 
-func initConfigs() {
-	viper.SetConfigName("default") // config file name without extension
-	viper.SetConfigType("yaml")
-	// TODO: refactor config path
-	viper.AddConfigPath(".")
-	viper.AddConfigPath("./conf")
-	viper.AddConfigPath("../conf")
-	viper.AddConfigPath("../../conf")
-	viper.AutomaticEnv() // read value ENV variable
+type databaseConfig struct {
+	Enabled  bool   `yaml:"enabled"`
+	Host     string `yaml:"host"`
+	Port     string `yaml:"port"`
+	User     string `yaml:"user"`
+	Password string `yaml:"password"`
+}
 
-	err := viper.ReadInConfig()
+func InitConfig(env string) (*Config, error) {
+	v, err := loadConfigFile(env)
 	if err != nil {
-		logger.Errorf("Fatal error config file: %s \n", err)
-		os.Exit(1)
+		return nil, err
 	}
 
-	port := viper.GetString("server.port")
-
-	logger.Infof("Server port: %s", port)
-
-	if err := viper.Unmarshal(&Store); err != nil {
-		logger.Errorf("unable to decode into struct, %v", err)
+	serverConfig, err := loadServerConfig(v)
+	if err != nil {
+		return nil, err
 	}
+
+	openAIConfig, err := loadOpenAIConfig(v)
+	if err != nil {
+		return nil, err
+	}
+
+	databaseConfig, err := loadDatabaseConfig(v)
+	if err != nil {
+		return nil, err
+	}
+
+	return &Config{
+		Server:   *serverConfig,
+		OpenAI:   *openAIConfig,
+		Database: *databaseConfig,
+	}, nil
+}
+
+func loadConfigFile(env string) (*viper.Viper, error) {
+	v := viper.New()
+	v.SetConfigName("config-" + env + ".yaml")
+	v.SetConfigName("config-" + env + ".yml")
+	v.SetConfigType("yaml")
+	// default config path
+	v.AddConfigPath(".")
+	v.AddConfigPath("./conf")
+	v.AddConfigPath("../conf")
+	v.AddConfigPath("../../conf")
+	// test config path
+	if env == "test" {
+		v.AddConfigPath("../config/testdata")
+	}
+	// path from environment variable
+	configPath := os.Getenv("CONFIG_PATH")
+	if configPath != "" {
+		v.AddConfigPath(configPath)
+	}
+	// log output all config path
+	logger.Infof("Config path: %v", v.ConfigFileUsed())
+
+	if err := v.ReadInConfig(); err != nil {
+		return nil, err
+	}
+	return v, nil
+}
+
+func loadServerConfig(v *viper.Viper) (*serverConfig, error) {
+	var c serverConfig
+	if err := v.UnmarshalKey("server", &c); err != nil {
+		return nil, err
+	}
+	return &c, nil
+}
+
+func loadOpenAIConfig(v *viper.Viper) (*openAIConfig, error) {
+	var c openAIConfig
+	if err := v.UnmarshalKey("openAI", &c); err != nil {
+		return nil, err
+	}
+
 	// we prefer use ENV variable for sensitive data
 	openAIApiKey := os.Getenv("OPENAI_API_KEY")
 	if openAIApiKey != "" {
-		Store.OpenAI.APIKey = openAIApiKey
+		logger.Errorf("OpenAI API Key is empty")
 	}
-	logger.Infof("OpenAI API Key: %s", Store.OpenAI.APIKey)
+
+	return &c, nil
+}
+
+func loadDatabaseConfig(v *viper.Viper) (*databaseConfig, error) {
+	var c databaseConfig
+	if err := v.UnmarshalKey("database", &c); err != nil {
+		return nil, err
+	}
+	return &c, nil
 }
