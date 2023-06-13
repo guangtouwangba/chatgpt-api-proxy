@@ -55,5 +55,4 @@ func TestLoadConfig(t *testing.T) {
 	if config.Database.Enabled && config.Database.Port != "5432" {
 		t.Fatalf("Database port should be 5432")
 	}
-
 }

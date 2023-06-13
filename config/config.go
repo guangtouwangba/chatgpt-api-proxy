@@ -4,6 +4,8 @@ import (
 	"chatgpt-api-proxy/pkg/logger"
 	"os"
 
+	"github.com/pkg/errors"
+
 	"github.com/spf13/viper"
 )
 
@@ -108,7 +110,7 @@ func loadConfigFile(env string) (*viper.Viper, error) {
 	logger.Infof("Config path: %v", v.ConfigFileUsed())
 
 	if err := v.ReadInConfig(); err != nil {
-		return nil, err
+		return nil, errors.Wrap(err, "failed to read config file")
 	}
 	return v, nil
 }
@@ -116,7 +118,7 @@ func loadConfigFile(env string) (*viper.Viper, error) {
 func loadServerConfig(v *viper.Viper) (*serverConfig, error) {
 	var c serverConfig
 	if err := v.UnmarshalKey("server", &c); err != nil {
-		return nil, err
+		return nil, errors.Wrap(err, "failed to load server config")
 	}
 	return &c, nil
 }
@@ -124,7 +126,7 @@ func loadServerConfig(v *viper.Viper) (*serverConfig, error) {
 func loadOpenAIConfig(v *viper.Viper) (*openAIConfig, error) {
 	var c openAIConfig
 	if err := v.UnmarshalKey("openAI", &c); err != nil {
-		return nil, err
+		return nil, errors.Wrap(err, "failed to load openAI config")
 	}
 
 	// we prefer use ENV variable for sensitive data
@@ -139,7 +141,7 @@ func loadOpenAIConfig(v *viper.Viper) (*openAIConfig, error) {
 func loadDatabaseConfig(v *viper.Viper) (*databaseConfig, error) {
 	var c databaseConfig
 	if err := v.UnmarshalKey("database", &c); err != nil {
-		return nil, err
+		return nil, errors.Wrap(err, "failed to load database config")
 	}
 	return &c, nil
 }
