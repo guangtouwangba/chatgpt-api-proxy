@@ -28,7 +28,7 @@ func NewConfigStore() *Config {
 type Config struct {
 	Server   serverConfig
 	OpenAI   openAIConfig
-	Database databaseConfig
+	Database DatabaseConfig
 }
 
 func (s *Config) GetServerPort() string {
@@ -37,6 +37,10 @@ func (s *Config) GetServerPort() string {
 
 func (s *Config) GetOpenAIApiKey() string {
 	return s.OpenAI.APIKey
+}
+
+func (s *Config) GetDatabaseConfig() *DatabaseConfig {
+	return &s.Database
 }
 
 type serverConfig struct {
@@ -51,12 +55,14 @@ type openAIConfig struct {
 	Password string `yaml:"password"`
 }
 
-type databaseConfig struct {
-	Enabled  bool   `yaml:"enabled"`
-	Host     string `yaml:"host"`
-	Port     string `yaml:"port"`
-	User     string `yaml:"user"`
-	Password string `yaml:"password"`
+type DatabaseConfig struct {
+	Enabled      bool   `yaml:"enabled"`
+	Type         string `yaml:"type"`
+	Host         string `yaml:"host"`
+	Port         string `yaml:"port"`
+	User         string `yaml:"user"`
+	Password     string `yaml:"password"`
+	DatabaseName string `yaml:"databaseName"`
 }
 
 func InitConfig(env string) (*Config, error) {
@@ -137,8 +143,8 @@ func loadOpenAIConfig(v *viper.Viper) (*openAIConfig, error) {
 	return &c, nil
 }
 
-func loadDatabaseConfig(v *viper.Viper) (*databaseConfig, error) {
-	var c databaseConfig
+func loadDatabaseConfig(v *viper.Viper) (*DatabaseConfig, error) {
+	var c DatabaseConfig
 	if err := v.UnmarshalKey("database", &c); err != nil {
 		return nil, errors.Wrap(err, "failed to load database config")
 	}

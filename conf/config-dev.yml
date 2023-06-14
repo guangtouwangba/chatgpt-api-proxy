@@ -6,10 +6,11 @@ openAI:
 
 database:
   enabled: false
-  host: ""
+  host: "localhost"
   port: 5432
-  user: ""
-  password: ""
-  supabase:
-    url: ""
-    secret: ""
+  user: "admin"
+  password: "admin"
+
+migration:
+  enabled: false
+  path: "scripts/dbmigrations"
