@@ -152,7 +152,7 @@ func loadDatabaseConfig(v *viper.Viper) (*DatabaseConfig, error) {
 
 	if env := os.Getenv("ENV"); env == "prod" {
 		password = os.Getenv("DB_PASSWORD")
+		c.Password = password
 	}
-	c.Password = password
 	return &c, nil
 }

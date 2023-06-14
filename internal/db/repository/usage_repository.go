@@ -10,9 +10,9 @@ type GormOpenAIUsageRepository struct {
 	db *gorm.DB
 }
 
-func (g *GormOpenAIUsageRepository) FindOne(openAIID string, identityID string, mod string) (*model.OpenAIUsage, error) {
+func (g *GormOpenAIUsageRepository) FindOne(openAIID string, identityID string) (*model.OpenAIUsage, error) {
 	var usage model.OpenAIUsage
-	if err := g.db.Where("openai_id = ? AND identity_id = ? AND model = ?", openAIID, identityID, mod).First(&usage).Error; err != nil {
+	if err := g.db.Where("openai_id = ? AND identity_id = ?", openAIID, identityID).First(&usage).Error; err != nil {
 		return nil, err
 	}
 	return &usage, nil
