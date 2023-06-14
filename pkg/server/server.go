@@ -4,6 +4,7 @@ import (
 	"chatgpt-api-proxy/config"
 	"chatgpt-api-proxy/internal/db"
 	"chatgpt-api-proxy/pkg/router"
+
 	"github.com/gin-gonic/gin"
 
 	"github.com/sirupsen/logrus"

@@ -7,6 +7,6 @@ import (
 
 // Handler is the entrypoint for the vercel serverless function.
 func Handler(w http.ResponseWriter, r *http.Request) {
-	server.InitServer()
+	_, engine := server.InitServer()
 	engine.ServeHTTP(w, r)
 }
