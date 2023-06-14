@@ -21,7 +21,7 @@ func NewConfigStore() *Config {
 	if err != nil {
 		logger.Panicf("Failed to load config: %v", err)
 	}
-
+	Store = config
 	return config
 }
 
@@ -145,8 +145,14 @@ func loadOpenAIConfig(v *viper.Viper) (*openAIConfig, error) {
 
 func loadDatabaseConfig(v *viper.Viper) (*DatabaseConfig, error) {
 	var c DatabaseConfig
+	var password string
 	if err := v.UnmarshalKey("database", &c); err != nil {
 		return nil, errors.Wrap(err, "failed to load database config")
 	}
+
+	if env := os.Getenv("ENV"); env == "prod" {
+		password = os.Getenv("DB_PASSWORD")
+	}
+	c.Password = password
 	return &c, nil
 }

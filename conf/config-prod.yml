@@ -5,11 +5,9 @@ openAI:
   apiKey: ""
 
 database:
-  enabled: false
-  host: ""
+  enabled: true
+  host: "db.krqjdbdeuhdnrjhzbhna.supabase.co"
   port: 5432
-  user: ""
+  user: "postgres"
   password: ""
-  supabase:
-    url: ""
-    secret: ""
+  databaseName: "postgres"

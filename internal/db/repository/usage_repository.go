@@ -33,6 +33,24 @@ func (g *GormOpenAIUsageRepository) Update(openAIID string, identityID string, m
 		openAIID, identityID, mod).Update("usage", usage).Update("tokens", tokens).Error
 }
 
+func (g *GormOpenAIUsageRepository) CreateOrUpdate(usage *model.OpenAIUsage) error {
+	// find if exists
+	var existingUsage model.OpenAIUsage
+	if err := g.db.Where("openai_id = ? AND identity_id = ? AND model = ?", usage.OpenAIID, usage.IdentityID, usage.Model).First(&existingUsage).Error; err != nil {
+		// if not exists, create
+		if err := g.db.Create(usage).Error; err != nil {
+			return err
+		}
+	} else {
+		// if exists, update
+		if err := g.db.Model(&model.OpenAIUsage{}).Where("openai_id = ? AND identity_id = ? AND model = ?",
+			usage.OpenAIID, usage.IdentityID, usage.Model).Update("usage", usage.Usage).Update("tokens", usage.Tokens).Error; err != nil {
+			return err
+		}
+	}
+	return nil
+}
+
 func NewGormOpenAIUsageRepository(db *gorm.DB) *GormOpenAIUsageRepository {
 	return &GormOpenAIUsageRepository{
 		db: db,

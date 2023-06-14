@@ -2,6 +2,9 @@ package middlerware
 
 import (
 	"bytes"
+	"chatgpt-api-proxy/internal/db"
+	"chatgpt-api-proxy/internal/db/model"
+	"chatgpt-api-proxy/internal/db/repository"
 	"chatgpt-api-proxy/pkg/logger"
 	"encoding/json"
 
@@ -30,7 +33,21 @@ func OpenAIUsage() gin.HandlerFunc {
 		if !ok {
 			logger.Errorf("error when get openai id")
 		}
-		logger.Infof("openai usage: %v", usage)
-		logger.Infof("openai id: %v", id)
+		mod, ok := openAIResponse["data"].(map[string]interface{})["model"].(string)
+		if !ok {
+			logger.Errorf("error when get openai model")
+		}
+		database := db.GetDB()
+		repo := repository.NewGormOpenAIUsageRepository(database)
+		openaiUsage := &model.OpenAIUsage{
+			OpenAIID: id,
+			Usage:    int64(usage["total_tokens"].(float64)),
+			Tokens:   int64(usage["total_tokens"].(float64)),
+			Model:    mod,
+		}
+		err = repo.CreateOrUpdate(openaiUsage)
+		if err != nil {
+			logger.Errorf("error when create or update openai usage: %v", err)
+		}
 	}
 }

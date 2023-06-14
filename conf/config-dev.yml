@@ -5,11 +5,12 @@ openAI:
   apiKey: ""
 
 database:
-  enabled: false
+  enabled: true
   host: "localhost"
   port: 5432
   user: "admin"
   password: "admin"
+  databaseName: "postgres"
 
 migration:
   enabled: false

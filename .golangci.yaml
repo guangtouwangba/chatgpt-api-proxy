@@ -25,7 +25,6 @@ linters:
     - exhaustive
     - exportloopref
     - forbidigo
-    - forcetypeassert
     - funlen
     - ginkgolinter
     - gocheckcompilerdirectives
@@ -90,6 +89,7 @@ linters:
     - whitespace
     - wrapcheck
   disable:
+    - forcetypeassert
     - testpackage
     - nlreturn
     - tagliatelle
