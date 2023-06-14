@@ -136,7 +136,7 @@ func loadOpenAIConfig(v *viper.Viper) (*openAIConfig, error) {
 
 	// we prefer use ENV variable for sensitive data
 	openAIApiKey := os.Getenv("OPENAI_API_KEY")
-	if openAIApiKey != "" {
+	if openAIApiKey == "" {
 		logger.Errorf("OpenAI API Key is empty")
 	}
 
