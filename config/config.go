@@ -17,9 +17,12 @@ func NewConfigStore() *Config {
 	if env == "" {
 		env = "dev"
 	}
-	config, err := InitConfig(env)
+	var config *Config
+	config, err := InitConfigFromConfigFile(env)
 	if err != nil {
-		logger.Panicf("Failed to load config: %v", err)
+		logger.Errorf("Failed to load config: %v", err)
+		// if we can't load the config, we try to load the config from env
+		config = InitConfigFromEnv()
 	}
 	Store = config
 	return config
@@ -65,7 +68,77 @@ type DatabaseConfig struct {
 	DatabaseName string `yaml:"databaseName"`
 }
 
-func InitConfig(env string) (*Config, error) {
+func InitConfigFromEnv() *Config {
+	viper.AutomaticEnv()
+
+	// server config
+	serverPort := viper.GetString("SERVER_PORT")
+	if serverPort == "" {
+		// default to 8080
+		// we do not panic here because for some platforms like vercel, we do not need to set SERVER_PORT
+		logger.Errorf("SERVER_PORT is not set")
+	}
+
+	// openAI config
+	openAIApiKey := viper.GetString("OPENAI_API_KEY")
+	if openAIApiKey == "" {
+		// we do not panic here because we allow user to pass OPENAI_API_KEY via http header
+		logger.Errorf("OPENAI_API_KEY is not set")
+	}
+
+	// database config
+	dbConfig := DatabaseConfig{}
+	databaseEnabled := viper.GetBool("DATABASE_ENABLED")
+	if databaseEnabled {
+		dbConfig = loadDBConfig(databaseEnabled)
+	}
+
+	return &Config{
+		Server:   serverConfig{Port: serverPort},
+		OpenAI:   openAIConfig{APIKey: openAIApiKey},
+		Database: dbConfig,
+	}
+}
+
+func loadDBConfig(databaseEnabled bool) DatabaseConfig {
+	databaseType := viper.GetString("DATABASE_TYPE")
+	if databaseType == "" {
+		logger.Errorf("DATABASE_TYPE is not set")
+	}
+	databaseHost := viper.GetString("DATABASE_HOST")
+	if databaseHost == "" {
+		logger.Panicf("DATABASE_HOST is not set")
+	}
+	databasePort := viper.GetString("DATABASE_PORT")
+	if databasePort == "" {
+		logger.Panicf("DATABASE_PORT is not set")
+	}
+	databaseUser := viper.GetString("DATABASE_USER")
+	if databaseUser == "" {
+		logger.Panicf("DATABASE_USER is not set")
+	}
+	databasePassword := viper.GetString("DATABASE_PASSWORD")
+	if databasePassword == "" {
+		logger.Panicf("DATABASE_PASSWORD is not set")
+	}
+	databaseName := viper.GetString("DATABASE_NAME")
+	if databaseName == "" {
+		logger.Panicf("DATABASE_NAME is not set")
+	}
+	return DatabaseConfig{
+		Enabled:      databaseEnabled,
+		Type:         databaseType,
+		Host:         databaseHost,
+		Port:         databasePort,
+		User:         databaseUser,
+		Password:     databasePassword,
+		DatabaseName: databaseName,
+	}
+}
+
+// InitConfigFromConfigFile loads the config from a config file
+// if you are using vercel, you should not use this function to load config.
+func InitConfigFromConfigFile(env string) (*Config, error) {
 	v, err := loadConfigFile(env)
 	if err != nil {
 		return nil, err

@@ -6,7 +6,7 @@ import (
 
 func TestLoadConfig(t *testing.T) {
 	// 调用待测试的函数
-	config, err := InitConfig("test")
+	config, err := InitConfigFromConfigFile("test")
 	if err != nil {
 		t.Fatalf("Failed to load config: %v", err)
 	}
