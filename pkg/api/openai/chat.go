@@ -3,7 +3,6 @@ package api
 import (
 	"chatgpt-api-proxy/pkg/httphelper"
 	"chatgpt-api-proxy/pkg/logger"
-	"chatgpt-api-proxy/pkg/middlerware"
 	"io"
 	"net/http"
 
@@ -14,7 +13,7 @@ import (
 
 func InitChatRouter(r *gin.Engine) *gin.Engine {
 	api := r.Group("/api/openai")
-	api.POST("/chat", middlerware.OpenAIUsage(), HandleChat)
+	api.POST("/chat", HandleChat)
 	return r
 }
 
