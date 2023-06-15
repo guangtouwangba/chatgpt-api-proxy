@@ -28,6 +28,7 @@ func NewRouter() *gin.Engine {
 	api.InitCompletionRouter(r)
 	api.InitChatRouter(r)
 	api.InitUsageRouter(r)
+	api.InitEmbeddingRouter(r)
 
 	return r
 }
