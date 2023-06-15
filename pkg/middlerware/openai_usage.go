@@ -7,6 +7,7 @@ import (
 	"chatgpt-api-proxy/internal/db/repository"
 	"chatgpt-api-proxy/pkg/logger"
 	"encoding/json"
+	"net/http"
 
 	"github.com/gin-gonic/gin"
 )
@@ -18,6 +19,10 @@ func OpenAIUsage() gin.HandlerFunc {
 		// parse response body
 		// convert to json
 		c.Next()
+		// if response is not ok, return
+		if c.Writer.Status() != http.StatusOK {
+			return
+		}
 		data := bodyLogWriter.body.Bytes()
 		// TODO: temp use map[string]interface{} to unmarshal, since cycle import with api response
 		var openAIResponse map[string]interface{}
