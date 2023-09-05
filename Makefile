@@ -12,7 +12,7 @@ build:
 
 test:
 	@echo "Testing..."
-	@go test -v ./...
+	@go test -v ./... tests/integrationtest/api/usage_test.go
 
 lint:
 	@echo "Linting..."
